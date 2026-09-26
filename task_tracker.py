@@ -46,6 +46,13 @@ def complete_task(tasks: list[dict[str, Any]], task_id: int) -> dict[str, Any]:
     raise ValueError(f"Task {task_id} was not found")
 
 
+def remove_task(tasks: list[dict[str, Any]], task_id: int) -> dict[str, Any]:
+    for index, task in enumerate(tasks):
+        if task["id"] == task_id:
+            return tasks.pop(index)
+    raise ValueError(f"Task {task_id} was not found")
+
+
 def format_tasks(tasks: list[dict[str, Any]]) -> str:
     if not tasks:
         return "No tasks yet."
@@ -73,6 +80,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     complete_command = commands.add_parser("complete", help="Mark a task as completed")
     complete_command.add_argument("task_id", type=int, help="Numeric task ID")
+
+    remove_command = commands.add_parser("remove", help="Remove a task")
+    remove_command.add_argument("task_id", type=int, help="Numeric task ID")
     return parser
 
 
@@ -89,6 +99,10 @@ def main() -> int:
             task = complete_task(tasks, args.task_id)
             save_tasks(args.data_file, tasks)
             print(f"Completed task {task['id']}: {task['title']}")
+        elif args.command == "remove":
+            task = remove_task(tasks, args.task_id)
+            save_tasks(args.data_file, tasks)
+            print(f"Removed task {task['id']}: {task['title']}")
         else:
             print(format_tasks(tasks))
     except ValueError as error:
@@ -100,4 +114,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

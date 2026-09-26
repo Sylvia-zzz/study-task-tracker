@@ -2,7 +2,14 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from task_tracker import add_task, complete_task, format_tasks, load_tasks, save_tasks
+from task_tracker import (
+    add_task,
+    complete_task,
+    format_tasks,
+    load_tasks,
+    remove_task,
+    save_tasks,
+)
 
 
 class TaskTrackerTests(unittest.TestCase):
@@ -36,7 +43,17 @@ class TaskTrackerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             complete_task([], 99)
 
+    def test_remove_task(self) -> None:
+        tasks = [
+            {"id": 1, "title": "Review Kanban notes", "completed": False},
+            {"id": 2, "title": "Practise Git branches", "completed": False},
+        ]
+
+        removed = remove_task(tasks, 1)
+
+        self.assertEqual(removed["title"], "Review Kanban notes")
+        self.assertEqual([task["id"] for task in tasks], [2])
+
 
 if __name__ == "__main__":
     unittest.main()
-

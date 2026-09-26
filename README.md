@@ -8,6 +8,7 @@ Tasks are stored locally in a JSON file, so the project has no external dependen
 - Add a study task
 - List pending and completed tasks
 - Mark a task as completed
+- Remove a task that is no longer needed
 - Save task data between runs
 - Automated tests using Python's built-in `unittest` module
 
@@ -35,6 +36,12 @@ Complete a task:
 python task_tracker.py complete 1
 ```
 
+Remove a task:
+
+```bash
+python task_tracker.py remove 1
+```
+
 Use a different data file:
 
 ```bash
@@ -58,4 +65,3 @@ study-task-tracker/
 |-- README.md
 `-- .gitignore
 ```
-
